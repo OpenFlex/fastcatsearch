@@ -25,11 +25,19 @@ import org.fastcatsearch.settings.Settings;
 public class PluginService extends AbstractService {
 
 	private Map<String, Plugin> pluginMap;
+	private static PluginService instance;
 	
 	public PluginService(Environment environment, Settings settings, ServiceManager serviceManager) {
 		super(environment, settings, serviceManager);
 	} 
 
+	public void asSingleton(){
+		instance = this;
+	}
+	
+	public static PluginService getInstance() {
+		return instance;
+	}
 	@Override
 	protected boolean doStart() throws FastcatSearchException {
 		pluginMap = new HashMap<String, Plugin>();

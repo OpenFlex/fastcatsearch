@@ -148,13 +148,14 @@ public class CatServer {
 		serviceManager.asSingleton();
 
 		PluginService pluginService = serviceManager.createService("plugin", PluginService.class);
-		
+		pluginService.asSingleton();
 		DBService dbService = serviceManager.createService("db", DBService.class);
 		dbService.asSingleton();
 		KeywordService keywordService = serviceManager.createService("keyword", KeywordService.class);
 		JobService jobService = serviceManager.createService("job", JobService.class);
 		jobService.asSingleton();
 		IRService irService = serviceManager.createService("ir", IRService.class);
+		irService.asSingleton();
 		StatisticsInfoService statisticsInfoService = serviceManager.createService("statistics_info", StatisticsInfoService.class);
 		ManagementInfoService managementInfoService = serviceManager.createService("management_info", ManagementInfoService.class);
 		NodeService nodeService = serviceManager.createService("node", NodeService.class);

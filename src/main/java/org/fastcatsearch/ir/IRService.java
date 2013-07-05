@@ -56,11 +56,17 @@ public class IRService extends AbstractService{
 	private QueryCacheModule<GroupResults> groupingCache;
 	private QueryCacheModule<GroupData> groupingDataCache;
 	private QueryCacheModule<Result> documentCache;
-	
+	private static IRService instance;
 	public IRService(Environment environment, Settings settings, ServiceManager serviceManager) {
 		super(environment, settings, serviceManager);
 	}
 	
+	public void asSingleton() {
+		instance = this;
+	}
+	public static IRService getInstance() {
+		return instance;
+	}
 	protected boolean doStart() throws FastcatSearchException {
 		IRConfig irconfig = IRSettings.getConfig(true);
 		
