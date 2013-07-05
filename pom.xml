@@ -18,20 +18,9 @@
   <packaging>jar</packaging>
   <dependencies>
     <dependency>
-      <groupId>org.fastcatsearch</groupId>
-      <artifactId>fastcatsearch-ir</artifactId>
-      <version>2.0.0</version>
-    </dependency>
-    <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.htmlcleaner</groupId>
@@ -100,13 +89,13 @@
       <artifactId>mail</artifactId>
       <version>1.5.0-b01</version>
     </dependency>
+    <dependency>
+    	<groupId>junit</groupId>
+    	<artifactId>junit</artifactId>
+    	<version>4.11</version>
+    	<scope>test</scope>
+    </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-    <id>fastcatsearch</id>
-    <url>${fastcatsearchRepository}</url>
-    </repository>
-  </repositories>
   <pluginRepositories>
     <pluginRepository>
         <id>autoincrement-versions-maven-plugin</id>
@@ -117,13 +106,6 @@
         </snapshots>
     </pluginRepository>
   </pluginRepositories>
-  <distributionManagement>
-    <repository>
-      <id>fastcatsearch</id>
-      <name>websqrd local</name>
-      <url>${fastcatsearchRepository}</url>
-    </repository>
-  </distributionManagement> 
   <build>
     <plugins>
       <plugin>
@@ -149,7 +131,7 @@
 			</execution>
 		</executions>
 	</plugin>
-	<plugin>
+	<!-- <plugin>
 		<groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-javadoc-plugin</artifactId>
 		<executions>
@@ -163,7 +145,7 @@
 				</configuration>
 			</execution>
 		</executions>
-	</plugin>
+	</plugin> -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -254,67 +236,39 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>autoincrement-versions-maven-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-        <instructions></instructions>
-        </configuration>
-        <executions>
-          <execution>
-            <id>update-pom-versions</id>
-            <goals>
-              <goal>increment</goal>
-              <goal>commit</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <autoIncrementVersion>true</autoIncrementVersion>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
     <pluginManagement>
-    <plugins>
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>autoincrement-versions-maven-plugin</artifactId>
-                    <versionRange>[0.0.0,)</versionRange>
-                    <goals>
-                      <goal>increment</goal>
-                      <goal>commit</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action><execute /></action>
-                </pluginExecution>
-                <pluginExecution>
-                	<pluginExecutionFilter>
-                		<groupId>org.apache.maven.plugins</groupId>
-                		<artifactId>maven-dependency-plugin</artifactId>
-                		<versionRange>[2.4,)</versionRange>
-                		<goals>
-                			<goal>copy-dependencies</goal>
-                		</goals>
-                	</pluginExecutionFilter>
-                	<action>
-                		<ignore></ignore>
-                	</action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-    </plugins>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>
+    									org.apache.maven.plugins
+    								</groupId>
+    								<artifactId>
+    									maven-dependency-plugin
+    								</artifactId>
+    								<versionRange>[2.4,)</versionRange>
+    								<goals>
+    									<goal>copy-dependencies</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore></ignore>
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
     </pluginManagement>
   </build>
 </project>
