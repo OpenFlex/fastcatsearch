@@ -25,6 +25,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.fastcatsearch.common.QueryCacheModule;
+import org.fastcatsearch.db.DBService;
 import org.fastcatsearch.env.Environment;
 import org.fastcatsearch.exception.FastcatSearchException;
 import org.fastcatsearch.ir.analysis.TokenizerAttributes;
@@ -56,7 +57,14 @@ public class IRService extends AbstractService{
 	private QueryCacheModule<GroupResults> groupingCache;
 	private QueryCacheModule<GroupData> groupingDataCache;
 	private QueryCacheModule<Result> documentCache;
-	
+	protected static IRService instance;
+	public static IRService getInstance() {
+		return instance;
+	}
+
+	public void asSingleton(){
+		instance = this;
+	}
 	public IRService(Environment environment, Settings settings, ServiceManager serviceManager) {
 		super(environment, settings, serviceManager);
 	}

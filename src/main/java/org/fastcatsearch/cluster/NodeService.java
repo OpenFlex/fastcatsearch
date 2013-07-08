@@ -22,7 +22,14 @@ public class NodeService extends AbstractService {
 	private Node myNode;
 	private Node masterNode;
 	private List<Node> nodeList;
+	protected static NodeService instance;
+	public static NodeService getInstance() {
+		return instance;
+	}
 
+	public void asSingleton(){
+		instance = this;
+	}
 	public NodeService(Environment environment, Settings settings, ServiceManager serviceManager) {
 		super(environment, settings, serviceManager);
 	}

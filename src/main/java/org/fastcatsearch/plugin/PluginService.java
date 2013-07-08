@@ -25,7 +25,14 @@ import org.fastcatsearch.settings.Settings;
 public class PluginService extends AbstractService {
 
 	private Map<String, Plugin> pluginMap;
-	
+	protected static PluginService instance;
+	public static PluginService getInstance() {
+		return instance;
+	}
+
+	public void asSingleton(){
+		instance = this;
+	}
 	public PluginService(Environment environment, Settings settings, ServiceManager serviceManager) {
 		super(environment, settings, serviceManager);
 	} 
