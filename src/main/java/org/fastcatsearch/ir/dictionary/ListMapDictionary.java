@@ -64,9 +64,11 @@ public class ListMapDictionary extends SourceDictionary implements ReadableDicti
 	}
 
 	@Override
-	public void addEntry(String line) {
+	public void addEntry(String line, boolean caseSensitive) {
 		ArrayList<CharVector> list = new ArrayList<CharVector>(4);
-
+		if(!caseSensitive){
+			line = line.toUpperCase();
+		}
 		String[] synonyms = line.split(",");
 		if (synonyms.length > 1) {
 			CharVector mainWord = null;

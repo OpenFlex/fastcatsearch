@@ -33,6 +33,10 @@ public abstract class SourceDictionary extends Dictionary implements WritableDic
 
 	}
 
+	public void addEntry(String line) {
+		addEntry(line, false);
+	}
+	
 	public void loadSource(InputStream is) {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));

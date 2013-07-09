@@ -58,9 +58,11 @@ public class HashSetDictionary extends SourceDictionary implements ReadableDicti
 	}
 	
 	@Override
-	public void addEntry(String line) {
+	public void addEntry(String line, boolean caseSensitive) {
 		line = line.trim();
-
+		if(!caseSensitive){
+			line = line.toUpperCase();
+		}
 		if (line.length() > 0) {
 			set.add(new CharVector(line));
 		}

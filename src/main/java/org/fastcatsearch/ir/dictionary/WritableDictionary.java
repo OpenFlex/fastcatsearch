@@ -5,7 +5,8 @@ import java.io.OutputStream;
 
 public interface WritableDictionary {
 	
-	public void addEntry(String line);
+	//caseSensitive : 대소문자 구분
+	public void addEntry(String line, boolean caseSensitive);
 	
 	public void writeTo(OutputStream out) throws IOException;
 	
