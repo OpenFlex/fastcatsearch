@@ -3,6 +3,9 @@ package org.fastcatsearch.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,17 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.AdditionalTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.CharsRefTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.util.CharsRef;
 import org.fastcatsearch.common.DynamicClassLoader;
-import org.fastcatsearch.ir.IRService;
 import org.fastcatsearch.ir.analysis.AnalyzerFactory;
-import org.fastcatsearch.ir.analysis.AnalyzerPool;
 import org.fastcatsearch.ir.analysis.DefaultAnalyzerFactory;
 import org.fastcatsearch.ir.io.CharVector;
-import org.fastcatsearch.settings.IRSettings;
 import org.fastcatsearch.util.ResultStringer;
 
 public class AnalyzerServlet extends WebServiceHttpServlet {
@@ -104,7 +105,7 @@ public class AnalyzerServlet extends WebServiceHttpServlet {
 					
 				factory.init();
 				Analyzer analyzer = factory.create();
-					
+				List<String> additionalTermList = new ArrayList<String>();
 				try {
 					rStringer.object()
 						.key("keyword").value(keyword)
@@ -112,12 +113,16 @@ public class AnalyzerServlet extends WebServiceHttpServlet {
 						.key("token")
 						.array("item");
 					
-					TokenStream tokenStream = analyzer.tokenStream("", new StringReader(keyword));
+					TokenStream tokenStream = analyzer.tokenStream("", new StringReader(keyword.toUpperCase()));
 					tokenStream.reset();
 					CharsRefTermAttribute termAttribute = null;
+					AdditionalTermAttribute additionalTermAttribute = null;
 					PositionIncrementAttribute positionAttribute = null;
 					if(tokenStream.hasAttribute(CharsRefTermAttribute.class)){
 						termAttribute = tokenStream.getAttribute(CharsRefTermAttribute.class);
+					}
+					if(tokenStream.hasAttribute(AdditionalTermAttribute.class)){
+						additionalTermAttribute = tokenStream.getAttribute(AdditionalTermAttribute.class);
 					}
 					if(tokenStream.hasAttribute(PositionIncrementAttribute.class)){
 						positionAttribute = tokenStream.getAttribute(PositionIncrementAttribute.class);
@@ -136,10 +141,26 @@ public class AnalyzerServlet extends WebServiceHttpServlet {
 						}
 						key.toUpperCase();
 						rStringer.value(key);
+						
+						if(additionalTermAttribute != null){
+							Iterator<String> iterator = additionalTermAttribute.iterateAdditionalTerms();
+							while(iterator.hasNext()){
+								additionalTermList.add(iterator.next());
+							}
+						}
+					}
+					rStringer.endArray();
+					
+					if(additionalTermList.size() > 0){
+						rStringer.key("additionalToken")
+						.array("item");
+						for(String additionalTerm : additionalTermList){
+							rStringer.value(additionalTerm);
+						}
+						rStringer.endArray();
 					}
 					
-					rStringer.endArray()
-					.endObject();
+					rStringer.endObject();
 					
 				}catch(Exception e){
 					throw new ServletException(e);
